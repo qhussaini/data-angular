@@ -1,0 +1,102 @@
+<app-breadcrumb [title]="'Data'" [items]="['Tables', 'Data Tables']" [active_item]="'Data'"></app-breadcrumb>
+<!-- Container-fluid starts -->
+<div class="container-fluid" >
+    <div class="row" *ngIf="!loading">
+        <div class="col-md-12 project-list">
+            <div class="card">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h5>ALL Data List</h5>
+                </div>
+                <div class="col-sm-6">
+                  <div class="text-right">
+                    <div class="form-group mb-0 mr-0"></div>
+                    <div class="btn-group" role="group">
+                      <button
+                        class="btn btn-primary mr-0"
+                        (click)="onAddNewClick(addnew)"
+                      >
+                      <i class="fa fa-plus-square"></i> Add New Manufacturer
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body custom-datatable" *ngIf="data.length>0">
+                    <ngx-datatable class="bootstrap" [rows]="data"
+                        [columns]="[{name:'Id', prop:'manufacturerId'},{name:'Name', prop:'manufacturerName'},{name:'Created Date', prop:'createdDate'},{name:'Description', prop:'description'}]" [columnMode]="'force'"
+                        [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="10">
+                    </ngx-datatable>
+                </div>
+                <div class="card-body" *ngIf="data.length === 0">
+            No Data Available
+          </div>
+            </div>
+        </div>
+    </div>
+    <div class="card p-3" *ngIf="loading">
+        <div class="loader-box">
+          <div class="loader-39"></div>
+        </div>
+        <div class="col-12 d-flex justify-content-center">
+          Loading Data.....
+        </div>
+      </div>
+</div>
+
+<ng-template #addnew let-modal>
+    <div class="modal-content p-1">
+      <div class="modal-header product-modal">
+        <h4>Create New Manufacturer</h4>
+        <button class="close" (click)="modal.dismiss('Cross click')"><span aria-hidden="true">×</span></button>
+      </div>
+      <form
+              class="theme-form p-2"
+              [formGroup]="newManufacturerForm"
+              (ngSubmit)="onCreate()"
+            >
+              <p>Enter details to create Manufacturer</p>
+              <div class="form-group">
+                <div class="form-row">
+                  <label class="col-form-label pt-0">Manufacturer Name *</label>
+                  <input
+                    class="form-control"
+                    type="text"
+                    formControlName="manufacturerName"
+                    placeholder="Manufacturer Name"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-form-label">Description *</label>
+                <input
+                  class="form-control"
+                  type="text"
+                  formControlName="description"
+                  placeholder="Description"
+                />
+              </div>
+              <div class="form-group mb-0">
+                <button
+                  class="btn btn-primary btn-block"
+                  type="button"
+                  (click)="onCreate()"
+                >
+                <i class="fa fa-circle-o-notch fa-spin" *ngIf="loading"></i>
+                  Create
+                </button>
+                <button
+                  class="btn btn-danger btn-block"
+                  type="button"
+                  (click)="modal.dismiss('Cross click')"
+                >
+                  Close
+                </button>
+              </div>
+            </form>
+    </div>
+  </ng-template>
